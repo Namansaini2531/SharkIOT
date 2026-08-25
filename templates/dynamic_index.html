@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>IotShark</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css" rel="stylesheet">
+    <link href="static/style.css" rel="stylesheet">
+
+    <!--suppress JSUnresolvedLibraryURL -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <!--suppress JSUnresolvedLibraryURL -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!--suppress JSUnresolvedLibraryURL -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+    <script src="static/dynamic_index_init.js"></script>
+</head>
+<body>
+<div class="title">
+    <h1>IotShark - Monitoring and Inferring IoT Traffic</h1>
+</div>
+<div class="main-container">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="graph">
+                        <canvas id="canvas"></canvas>
+                    </div>
+
+                    <div class="trace-selector">
+                        <p><strong>Real-time Graphs: </strong></p>
+                    
+                        <div>
+                            <input type="checkbox" id="incoming" name="incoming" onclick="checkboxOnClick();" checked>
+                            <label for="incoming">Overall Incoming</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="outgoing" name="outgoing" onclick="checkboxOnClick();" checked>
+                            <label for="outgoing">Overall Outgoing</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="udp_incoming" name="udp_incoming" onclick="checkboxOnClick();">
+                            <label for="udp_incoming">UDP Incoming</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="udp_outgoing" name="udp_outgoing" onclick="checkboxOnClick();">
+                            <label for="udp_outgoing">UDP Outgoing</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="tcp_incoming" name="tcp_incoming" onclick="checkboxOnClick();">
+                            <label for="tcp_incoming">TCP Incoming</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="tcp_outgoing" name="tcp_outgoing" onclick="checkboxOnClick();">
+                            <label for="tcp_outgoing">TCP Outgoing</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="others_incoming" name="others_incoming" onclick="checkboxOnClick();">
+                            <label for="others_incoming">Other Connection Protocol Incoming</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="others_outgoing" name="others_outgoing" onclick="checkboxOnClick();">
+                            <label for="others_outgoing">Other Connection Protocol Outgoing</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="http_incoming" name="http_incoming" onclick="checkboxOnClick();">
+                            <label for="http_incoming">HTTP Incoming</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="http_outgoing" name="http_outgoing" onclick="checkboxOnClick();">
+                            <label for="http_outgoing">HTTP Outgoing</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="https_incoming" name="https_incoming" onclick="checkboxOnClick();">
+                            <label for="https_incoming">HTTPS Incoming</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="https_outgoing" name="https_outgoing" onclick="checkboxOnClick();">
+                            <label for="https_outgoing">HTTPS Outgoing</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col" style="padding-right:0px;">
+            <div class="card">
+                <div class="card-body">
+                    <p>Total Bytes:  <span id="cumulative_total_bytes"> </span></p>
+                </div>
+            </div>
+        </div>
+        <div class="col" style="padding-left:0px; padding-right:0px;">
+            <div class="card">
+                <div class="card-body">
+                    <p>Total Incoming Bytes:  <span id="cumulative_incoming_bytes"> </span></p>
+                </div>
+            </div>
+        </div>
+        <div class="col" style="padding-left:0px; padding-right:0px;">
+            <div class="card">
+                <div class="card-body">
+                    <p>Total Outgoing Bytes:  <span id="cumulative_outgoing_bytes"> </span></p>
+                </div>
+            </div>
+        </div>
+        <div class="col" style="padding-left:0px; padding-right:0px;">
+            <div class="card">
+                <div class="card-body">
+                    <p>Total UDP Incoming Bytes: <span id="cumulative_udp_incoming_bytes"> </span></p>
+                </div>
+            </div>
+        </div>
+        <div class="col" style="padding-left:0px;">
+            <div class="card">
+                <div class="card-body">
+                    <p>Total UDP Outgoing Bytes: <span id="cumulative_udp_outgoing_bytes"> </span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col" style="padding-right:0px;">
+            <div class="card">
+                <div class="card-body">
+                    <p>Total TCP Incoming Bytes: <span id="cumulative_tcp_incoming_bytes"> </span></p>
+                </div>
+            </div>
+        </div>
+        <div class="col" style="padding-left:0px; padding-right:0px;">
+            <div class="card">
+                <div class="card-body">
+                    <p>Total TCP Outgoing Bytes: <span id="cumulative_tcp_outgoing_bytes"> </span></p>
+                </div>
+            </div>
+        </div>
+        <div class="col" style="padding-left:0px; padding-right:0px;">
+            <div class="card">
+                <div class="card-body">
+                    <p>Total Other Incoming Bytes: <span id="cumulative_others_incoming_bytes"> </span></p>
+                </div>
+            </div>
+        </div>
+        <div class="col" style="padding-left:0px;">
+            <div class="card">
+                <div class="card-body">
+                    <p>Total Other Outgoing Bytes: <span id="cumulative_others_outgoing_bytes"> </span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col" style="padding-right:0px;">
+            <div class="card">
+                <div class="card-body">
+                    <p>Total HTTP Incoming Bytes: <span id="cumulative_http_incoming_bytes"> </span></p>
+                </div>
+            </div>
+        </div>
+        <div class="col" style="padding-left:0px; padding-right:0px;">
+            <div class="card">
+                <div class="card-body">
+                    <p>Total HTTP Outgoing Bytes: <span id="cumulative_http_outgoing_bytes"> </span></p>
+                </div>
+            </div>
+        </div>
+        <div class="col" style="padding-left:0px; padding-right:0px;">
+            <div class="card">
+                <div class="card-body">
+                    <p>Total HTTPS Incoming Bytes: <span id="cumulative_https_incoming_bytes"> </span></p>
+                </div>
+            </div>
+        </div>
+        <div class="col" style="padding-left:0px;">
+            <div class="card">
+                <div class="card-body">
+                    <p>Total HTTPS Outgoing Bytes: <span id="cumulative_https_outgoing_bytes"> </span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="static/dynamic_index_draw.js"></script>
+</body>
+</html>
+
