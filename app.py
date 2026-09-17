@@ -133,7 +133,7 @@ def create_basic_plot():
                         x_val)] += outgoing
 
         # add data for graph "Is the User Talking to the Voice Assistant?"
-        if app.config['userstate_file'] is not None:
+        if app.config.get('userstate_file') is not None:
             print("Reading in UserState csv file")
             userstate_data_file = open(app.config['userstate_file'], 'r')
             csv_reader_userstate = csv.reader(userstate_data_file)
