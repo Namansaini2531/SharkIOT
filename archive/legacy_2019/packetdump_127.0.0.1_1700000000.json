@@ -1,0 +1,76 @@
+{
+    "total_incoming_bytes": 550,
+    "total_outgoing_bytes": 500,
+    "total_bytes": 1050,
+    "num_local_connections": 0,
+    "num_global_connections": 3,
+    "num_total_connections": 3,
+    "src_port_map": {
+        "80": {
+            "outgoing_bytes": 250
+        },
+        "53": {
+            "outgoing_bytes": 250
+        }
+    },
+    "dst_port_map": {
+        "443": {
+            "incoming_bytes": 100
+        },
+        "53": {
+            "incoming_bytes": 150
+        },
+        "80": {
+            "incoming_bytes": 300
+        }
+    },
+    "protocol_map": {
+        "HTTPS": {
+            "incoming_bytes": 100,
+            "outgoing_bytes": 200
+        },
+        "DNS": {
+            "incoming_bytes": 150,
+            "outgoing_bytes": 250
+        },
+        "HTTP": {
+            "incoming_bytes": 300,
+            "outgoing_bytes": 50
+        }
+    },
+    "connection_map": {
+        "TCP": {
+            "incoming_bytes": 400,
+            "outgoing_bytes": 250
+        },
+        "UDP": {
+            "incoming_bytes": 150,
+            "outgoing_bytes": 250
+        }
+    },
+    "isp_map": {},
+    "src_ip_map": {
+        "10.0.0.1": {
+            "outgoing_bytes": 250
+        },
+        "127.0.0.1": {
+            "outgoing_bytes": 250
+        }
+    },
+    "dst_ip_map": {
+        "127.0.0.1": {
+            "incoming_bytes": 400
+        },
+        "10.0.0.1": {
+            "incoming_bytes": 150
+        }
+    },
+    "udp_map": {
+        "incoming_bytes": 150,
+        "outgoing_bytes": 250
+    },
+    "tcp_map": {
+        "incoming_bytes": 400,
+        "outgoing_bytes": 250
+    }
+}
